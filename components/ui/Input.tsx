@@ -42,18 +42,29 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-1">
-      {header && (
-        <label className="text-grey-500 mb-1 font-bold" htmlFor={header}>
-          {header}
-        </label>
-      )}
-      <div className="flex items-center w-full h-12 rounded-md border-2 bg-grey-20">
+    <div className={`flex flex-col gap-1`}>
+      <label
+        className="block text-grey-500 mb-1 font-mono font-bold"
+        htmlFor={header}
+      >
+        {header}
+      </label>
+      <div
+        className={`flex flex-row items-center w-full h-12 text-xl lg:text-2xl rounded-md text-right font-mono font-normal relative border-2
+                    ${isFocused ? "border-green-400 bg-grey-20" : "border-transparent bg-grey-20"}
+                    ${hasError ? "border-red-400" : ""}
+                  `}
+      >
+        {hasError && (
+          <p className="text-red-400 absolute -top-8 right-0 text-base font-mono font-bold">{`Can't be zero`}</p>
+        )}
         {icon && (
-          <img src={icon} alt="icon" className="w-4 ml-5" />
+          <img src={icon} alt="icon" className="aspect-square w-4 ml-5" />
         )}
         <input
-          className={`w-full text-xl font-bold rounded-md px-4 ${className ?? ""}`}
+          className={`w-full text-2xl font-bold rounded-md ${
+            !header && !icon ? "px-4 text-center" : "pl-10 pr-4 text-right"
+          } border-2 border-transparent focus:outline-none text-green-900 ${className ?? ""}`}
           placeholder={placeholder ?? "0"}
           value={value}
           onFocus={() => setIsFocused(true)}
@@ -63,7 +74,6 @@ const Input: React.FC<InputProps> = ({
           }}
           onChange={handleInputChange}
           type={allowFloatingNum ? "number" : "text"}
-          id={header}
         />
       </div>
     </div>
