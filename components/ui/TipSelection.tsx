@@ -9,6 +9,16 @@ const TipSelection: React.FC<TipSelectionProps> = ({
   customTip,
   onCustomTipChange,
 }) => {
+  const handleTipSelect = (val: number) => {
+    if (onSelect) onSelect(val);
+    if (onCustomTipChange) onCustomTipChange("");
+  };
+
+  const handleCustomTipChange = (value: string) => {
+    if (onCustomTipChange) onCustomTipChange(value);
+    if (onSelect) onSelect(undefined);
+  };
+
   return (
     <div>
       <span className="block text-grey-500 mb-2 font-bold text-base">
@@ -20,7 +30,7 @@ const TipSelection: React.FC<TipSelectionProps> = ({
             key={val}
             percentage={val}
             isSelected={selectedTip === val && customTip === ""}
-            onTipSelect={() => onSelect?.(val)}
+            onTipSelect={() => handleTipSelect(val)}
           />
         ))}
         <Input
@@ -29,7 +39,7 @@ const TipSelection: React.FC<TipSelectionProps> = ({
           value={customTip ?? ""}
           allowFloatingNum={true}
           allowZero={true}
-          onChange={onCustomTipChange}
+          onChange={handleCustomTipChange}
           placeholder="Custom"
           className="text-center text-xl font-bold border-2 border-transparent focus:outline-none"
         />
